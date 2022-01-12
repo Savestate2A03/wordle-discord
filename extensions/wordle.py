@@ -46,7 +46,12 @@ class Wordle(commands.Cog):
 			await ctx.send(f'The game has already started! Please wait until the next.')
 			return
 		if player not in game['players']:
-			game['players'][player] = {}
+			game['players'][player] = {
+				'name': user.display_name,
+				'guesses': [],
+				'prev_messages': [],
+				'finished': False
+			}
 			await ctx.send(f'{user.mention} has joined! {len(game["players"])} players total.\nType `!start` to begin!')
 		else:
 			await ctx.send(f'{user.mention}  has already joined the game!')
@@ -100,13 +105,6 @@ class Wordle(commands.Cog):
 			return
 		game['word'] = random.choice(self.wordlist).lower()
 		game['active'] = True
-		for player in game['players']:
-			game['players'][player] = {
-				'name': user.display_name,
-				'guesses': [],
-				'prev_messages': [],
-				'finished': False
-			}
 		await ctx.send(f'Game started with {len(game["players"])} players! Type `!guess` with your answer spoilered.')
 
 	@commands.command()
@@ -150,25 +148,28 @@ class Wordle(commands.Cog):
 			await ctx.message.delete()
 			prev_messages.append(await ctx.send(f'{user.mention} Not a valid word!'))
 			return
-		game['players'][player]['guesses'].append(guess)
+		players[player]['guesses'].append(guess)
 		await ctx.message.delete()
 		for prev_message in prev_messages:
 			await prev_message.delete()
 			prev_messages.remove(prev_message)
-		game['players'][player]['finished'] = (guess == word)
+		players[player]['finished'] = (guess == word)
 		if len(game['players'][player]['guesses']) >= 6:
-			game['players'][player]['finished'] = True
+			players[player]['finished'] = True
 		attached_message = user.mention
 		if guess == word:
 			attached_message += ' Congratulations on solving the word!'
-		elif game['players'][player]['finished']:
+		elif players[player]['finished']:
 			attached_message += f' Sorry! You\'ve run out of guesses. The word was ||`{word}`||.'
 		prev_messages.append(await ctx.send(attached_message, embed=self.embed(word, game, player, user)))
 		all_finished = True
-		for player_i in game['players']:
-			if not game['players'][player_i]['finished']:
+		for player_i in players:
+			if not players[player_i]['finished']:
 				all_finished = False
 		if all_finished:
+			for player_i in players:
+				for prev_message in players[player_i]['prev_messages']:
+					await prev_message.delete()
 			attached_message = f'Everyone has finished! The word was {word}. Here\'s the recap:'
 			await ctx.send(attached_message, embed=self.embed_final(word, game))
 			self.games.pop(channel)
@@ -200,6 +201,7 @@ class Wordle(commands.Cog):
 				if guess[j] == compare_word[j]:
 					keyboard = keyboard.replace(f' {guess[j]}', f'>{guess[j]}')
 					compare_word = compare_word[:j] + ' ' + compare_word[j+1:]
+					protected_letters.append(guess[j])
 					guess = guess[:j] + emoji_green + guess[j+1:]
 			# yellows
 			for j in range(len(word)):
