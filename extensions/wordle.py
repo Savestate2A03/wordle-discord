@@ -31,7 +31,7 @@ class Wordle(commands.Cog):
 			}
 			await self.join(ctx, args)
 			await ctx.send(f'Game started! Type `!guess` with your answer spoilered. Alternatively, type in `!giveup` to forfeit.')
-		else: 
+		else:
 			await ctx.send(f'{user.mention} A wordle game is currently on-going! Please wait until '
 						   'it\'s finished before starting a new one.')
 
@@ -55,26 +55,6 @@ class Wordle(commands.Cog):
 			await ctx.send(f'{user.mention} has joined! {len(game["players"])} players total.')
 		else:
 			await ctx.send(f'{user.mention}  has already joined the game!')
-
-	@commands.command()
-	async def leave(self, ctx, *args):
-		# deletes player context from game.
-		channel = ctx.channel.id
-		if channel not in self.games:
-			await ctx.send(f'{user.mention} No game is currently running!')
-			return
-		game    = self.games[channel]
-		user    = ctx.author
-		player  = user.id
-		if player in game['players']:
-			# all info for a player is contained in
-			# this context so it's fine to delete one mid-game.
-			game['players'].pop(player)
-			await ctx.send(f'{user.mention}  has left.')
-		else:
-			await ctx.send(f'{user.mention}  is already not in the game!')
-		if not game['players']:
-			await self.check_finish(ctx, forced=True)
 
 	@commands.command()
 	async def giveup(self, ctx, *args):
