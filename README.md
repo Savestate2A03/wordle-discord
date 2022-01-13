@@ -16,13 +16,12 @@ When you first run the program, it will ask you for your Discord bot token and p
 Afterwards, it will save these to a `config.txt` file so you don't have to enter them in again on re-launch.
 
 ## Commands
-* `!wordle` Initiates a Wordle game in the current channel.
-* `!join` Joins an un-started Wordle game in the current channel.
-* `!start` Starts the current Wordle game with all joined users.
-* `!guess ||word||` Guess a word. Must be spoilered or it won't be recognized. Deletes the message after processed.
-* `!leave` Leaves Wordle game in the current channel, started or not.
-* `!giveup` Gievs up in an active Wordle game. Notably does not remove from final results recap.
-* `!stop` Stops the current game in full.
+* `!wordle` Initiates a Wordle game in the current channel
+* `!join` Joins a Wordle game in the current channel
+* `!guess ||word||` Guess a word. Must be spoilered or it won't be recognized. Deletes the message after processed
+* `!leave` Leaves Wordle game in the current channel
+* `!giveup` Gives up in an active Wordle game. Notably does not remove from final results recap
+* `!stop` Stops the current game in full
 
 ## Visual Feedback
 The board starts out spoilered, but players can click their words and keyboard for themselves. This is a trust based game, don't go clicking your opponents' boards.
