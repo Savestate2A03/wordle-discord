@@ -19,7 +19,7 @@ Afterwards, it will save these to a `config.txt` file so you don't have to enter
 * `!wordle` Initiates a Wordle game in the current channel
 * `!join` Joins a Wordle game in the current channel
 * `!guess ||word||` Guess a word. Must be spoilered or it won't be recognized. Deletes the message after processed
-* `!giveup` Gives up in an active Wordle game. Notably does not remove from final results recap
+* `!giveup` Gives up in an active Wordle game
 * `!stop` Stops the current game in full
 
 ## Visual Feedback
