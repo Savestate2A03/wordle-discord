@@ -10,6 +10,10 @@ Required packages are: `discord.py`. You can install it with:
 ```
 python -3 -m pip install -U discord.py
 ```
+## Permissions
+The bot that this runs under requires the following Discord bot permissions:
+* `scopes: bot` 
+* `bot permissions: Send Messages, Manage Messages`
 
 ## Running
 When you first run the program, it will ask you for your Discord bot token and preferred command invoker. 
