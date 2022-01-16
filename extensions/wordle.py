@@ -8,6 +8,7 @@ class Wordle(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.wordlist = []
+        self.guesslist = []
 		self.games = {}
 
 		# put word list in memory
@@ -15,6 +16,9 @@ class Wordle(commands.Cog):
 		with open("./extensions/wordlist.txt", 'r') as wordlist:
 			for word in wordlist:
 				self.wordlist.append(word.strip())
+		with open("./extensions/guesslist.txt", 'r') as guesslist:
+			for word in guesslist:
+				self.guesslist.append(word.strip())
 		print('Loaded!')
 
 	@commands.command()
@@ -133,7 +137,7 @@ class Wordle(commands.Cog):
 			await ctx.message.delete()
 			prev_messages.append(await ctx.send(f'{user.mention} Your guess must be the same length as the word!'))
 			return
-		if guess not in self.wordlist:
+		if guess not in self.guesslist:
 			await ctx.message.delete()
 			prev_messages.append(await ctx.send(f'{user.mention} Not a valid word!'))
 			return
