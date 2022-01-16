@@ -8,7 +8,7 @@ class Wordle(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.wordlist = []
-        self.guesslist = []
+		self.guesslist = []
 		self.games = {}
 
 		# put word list in memory
